@@ -158,7 +158,7 @@
             width: 200px; /* Logo ka size yahan se chota-bara karen */
             height: auto;
             margin-bottom: 50px; /* Logo aur text ke darmiyan gap */
-            border-radius: 20%; /* Agar logo round chahiye to */
+            border-radius: 30%; /* Agar logo round chahiye to */
 }
 
         .shop-name { color: var(--accent); font-size: 2.2rem; font-weight: bold; margin-bottom: 15px; }
@@ -246,7 +246,7 @@
 #shop-name-id::before {
     content: attr(data-text);
     white-space: pre;
-    font-size: 2.5rem;
+    font-size: 1rem;
     font-weight: bold;
     color: #f29741; /* Orange/Gold shade */
     line-height: 1.2;
@@ -351,3 +351,4 @@
 /* 6. Button Texts */
 #install-text-id::before { content: attr(data-ins);}
 #close-popup-btn::before { content: "Close"; }
+
