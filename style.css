@@ -161,7 +161,7 @@
             border-radius: 30%; /* Agar logo round chahiye to */
 }
 
-        .shop-name { color: var(--accent); font-size: 2rem; font-weight: bold; margin-bottom: 15px; }
+        .shop-name { color: var(--accent); /* font-size: 2rem; */ font-weight: bold; margin-bottom: 15px; }
         .whatsapp-box { display: flex; align-items: center; gap: 10px; background: #1c1c1c; padding: 10px 20px; border-radius: 50px; margin-bottom: 15px; border: 1px solid #333; }
         .phone-num { color: #fff; font-size: 1.2rem; }
         .address-text { color: #888; font-size: 0.9rem; }
@@ -246,7 +246,7 @@
 #shop-name-id::before {
     content: attr(data-text);
     white-space: pre;
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     font-weight: bold;
     color: #f29741; /* Orange/Gold shade */
     line-height: 1.2;
@@ -351,6 +351,7 @@
 /* 6. Button Texts */
 #install-text-id::before { content: attr(data-ins);}
 #close-popup-btn::before { content: "Close"; }
+
 
 
 
