@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', initSplash);
 const appInfoData = {
     developer: "Wasidevelopers",
     devWA: "0334-6800959",
-    version: "v2.0.20",
+    version: "v2.0.28",
     installText: "Install Dar Ul Haram Calculator",
     closeText: "Close"
 };
@@ -550,3 +550,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
