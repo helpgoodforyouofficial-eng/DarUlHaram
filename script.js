@@ -409,84 +409,6 @@ function doGeneralWeight() {
 
 
 
-// --- PWA INSTALL & NOTIFICATION LOGIC ---
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    // Container ko yahan dhundein taake error na aaye
-    const installBtnContainer = document.getElementById('install-container'); 
-    if(installBtnContainer) installBtnContainer.style.display = 'block';
-});
-
-function handleInstallClick() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-        const installBtnContainer = document.getElementById('install-container');
-        if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-            if(installBtnContainer) installBtnContainer.style.display = 'none';
-        }
-        deferredPrompt = null;
-    });
-}
-
-function askNotificationPermission() {
-    if ('Notification' in window) {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                console.log('Notification permission granted.');
-                // Welcome notification ka function yahan call kar sakte hain
-            }
-        });
-    }
-}
-
-window.addEventListener('load', () => {
-    askNotificationPermission();
-    
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        const installBtnContainer = document.getElementById('install-container');
-        if(installBtnContainer) installBtnContainer.style.display = 'none';
-    }
-});
-
-
-
-
-
-
-// --- SERVICE WORKER REGISTRATION & AUTO-UPDATE ---
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then((reg) => {
-      console.log("Service Worker Registered");
-
-      // 1. Har baar jab app khulay, GitHub se naya version check karo
-      reg.update();
-
-      // 2. Agar naya code mil jaye, to usay install karke foran apply karo
-      reg.onupdatefound = () => {
-        const installingWorker = reg.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // Naya version mil gaya! App ko automatic refresh karo
-            window.location.reload();
-          }
-        };
-      };
-    }).catch((err) => console.log("Registration Failed:", err));
-  }
-
-  // 3. Extra Force: Internet on ho to cache ko bypass kar ke fresh check karo
-  window.addEventListener('load', () => {
-    if (navigator.onLine) {
-      fetch(window.location.href, { cache: 'reload' })
-        .then(() => console.log("Online: Fresh content checked"))
-        .catch(() => console.log("Offline mode"));
-    }
-  });
 
 // WhatsApp link ko clickable banane ke liye
 const waEl = document.getElementById('wa-info');
@@ -504,7 +426,72 @@ const splashData = {
     address: "Raiwind Lahore Pakistan"
 };
 
-function initSplash() {
+function // --- AUTO-INSTALL POPUP LOGIC ---
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // 1. Browser ke default prompt ko rokein
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // 2. Install button container ko active karein
+    const installBtnContainer = document.getElementById('install-container'); 
+    if(installBtnContainer) {
+        installBtnContainer.style.display = 'block';
+        
+        // Button ke andar icon aur text set karein
+        const installIcon = document.getElementById('install-icon-id');
+        if(installIcon) installIcon.innerHTML = "<i>📥</i>"; 
+        
+        const installText = document.getElementById('install-text-id');
+        if(installText) installText.innerText = "Install Calculator App";
+    }
+
+    // 3. FORCE POPUP: Website load hote hi popup dikhayein
+    setTimeout(() => {
+        const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+        if (!isInstalled && typeof togglePopup === "function") {
+            
+            // Agar popup pehle se band hai, tabhi kholna
+            const popup = document.getElementById('custom-popup');
+            if (popup && popup.style.display !== 'flex') {
+                togglePopup(); 
+                
+                // Popup title update karein
+                const pTitle = document.getElementById('popup-title');
+                if(pTitle) pTitle.innerText = "Install Taj App";
+                
+                const pDev = document.getElementById('dev-info');
+                if(pDev) pDev.innerText = "Behtareen experience aur offline use karne ke liye app install karein.";
+            }
+        }
+    }, 2000); // 2 second ka delay
+});
+
+// Install Button ka click function
+function handleInstallClick() {
+    if (!deferredPrompt) return;
+    
+    deferredPrompt.prompt(); // Browser ka asli prompt dikhayega
+    
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('App Installed Successfully');
+            const installBtnContainer = document.getElementById('install-container');
+            if(installBtnContainer) installBtnContainer.style.display = 'none';
+            if(typeof togglePopup === "function") togglePopup(); // Install ke baad popup band
+        }
+        deferredPrompt = null;
+    });
+}
+
+
+// end Notifications 
+
+
+
+
+initSplash() {
     const shopName = document.getElementById('shop-name-id');
     const whatsapp = document.getElementById('whatsapp-id');
     const address = document.getElementById('address-id');
@@ -550,5 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
 
 
