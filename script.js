@@ -473,113 +473,6 @@ function handleInstallClick() {
 
 
 
-// WhatsApp link ko clickable banane ke liye
-const waEl = document.getElementById('wa-info');
-if(waEl) {
-    waEl.onclick = () => {
-        window.open("https://wa.me/923346800959?text=Hi%20WasiDevelopers,%20I%20have%20a%20query%20about%20the%20Calculator%20for%20my%20Business.", "_blank");
-    };
-}
-
-
-// Splash Screen ka Private Data
-const splashData = {
-    name: "HM ERP System \n Complete School Management",
-    phone: "0300-1516637",
-    address: "Raiwind Lahore Pakistan"
-};
-
-function initSplash() {
-    const shopName = document.getElementById('shop-name-id');
-    const whatsapp = document.getElementById('whatsapp-id');
-    const address = document.getElementById('address-id');
-
-    // JS ke zariye CSS content mein data bhejna
-    if(shopName) shopName.setAttribute('data-text', splashData.name);
-    if(whatsapp) whatsapp.setAttribute('data-num', splashData.phone);
-    if(address) address.setAttribute('data-addr', splashData.address);
-}
-
-// Jab page load ho jaye tab data fill karo
-document.addEventListener('DOMContentLoaded', initSplash);
-
-
-// Central Data (Inko Obfuscate karne se sab hide ho jayega)
-const appInfoData = {
-    developer: "Wasidevelopers",
-    devWA: "0334-6800959",
-    version: "v2.0.31",
-    installText: "Install HM ERP Calculator",
-    closeText: "Close"
-};
-
-function initAppInfo() {
-    const devEl = document.getElementById('dev-info');
-    const waEl = document.getElementById('wa-info');
-    const verEl = document.getElementById('version-info');
-    const insTextfunction togglePopup() {
-        const popup = document.getElementById('custom-popup');
-        popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
-    }
-
-    setTimeout(() => { document.getElementById('splash-screen').style.opacity = '0'; 
-    setTimeout(() => document.getElementById('splash-screen').style.visibility = 'hidden', 500); }, 3000);
-
-
-
-// --- AUTO-INSTALL POPUP LOGIC ---
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    const installBtnContainer = document.getElementById('install-container'); 
-    if(installBtnContainer) {
-        installBtnContainer.style.display = 'block';
-        const installIcon = document.getElementById('install-icon-id');
-        if(installIcon) installIcon.innerHTML = "<i>📥</i>"; 
-        const installText = document.getElementById('install-text-id');
-        if(installText) installText.innerText = "";
-    }
-
-    setTimeout(() => {
-        const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
-        if (!isInstalled && typeof togglePopup === "function") {
-            const popup = document.getElementById('custom-popup');
-            if (popup && popup.style.display !== 'flex') {
-                togglePopup(); 
-                
-                
-                if(pTitle) pTitle.innerText = ""; // Title set kiya
-                
-                const pDev = document.getElementById('dev-info');
-                if(pDev) {
-                    // FIX: Pehle instruction line, phir line break, phir Developer ka naam
-                    pDev.innerHTML = "Behtareen experience aur offline use karne ke liye app install karein.<br><br><span style='color:#f29741; font-weight:bold;'>Developer: Wasi Developer</span>";
-                }
-            }
-        }
-    }, 2000);
-});
-
-// Install Button ka click function (Wahi purana)
-function handleInstallClick() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-            const installBtnContainer = document.getElementById('install-container');
-            if(installBtnContainer) installBtnContainer.style.display = 'none';
-            if(typeof togglePopup === "function") togglePopup();
-        }
-        deferredPrompt = null;
-    });
-}
-
-// end Notifications 
-
-
 
 
 
@@ -645,3 +538,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
