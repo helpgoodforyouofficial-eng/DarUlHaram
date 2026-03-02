@@ -432,7 +432,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
             if (popup && popup.style.display !== 'flex') {
                 togglePopup(); 
                 
-                
+                const pTitle = document.getElementById('popup-title');
                 if(pTitle) pTitle.innerText = ""; // Title set kiya
                 
                 const pDev = document.getElementById('dev-info');
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', initSplash);
 
 // Central Data (Inko Obfuscate karne se sab hide ho jayega)
 const appInfoData = {
-    developer: "Wasi Developers",
+    developer: "Wasidevelopers",
     devWA: "0334-6800959",
     version: "v2.0.30",
     installText: "Install HM ERP Calculator",
