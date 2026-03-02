@@ -408,7 +408,6 @@ function doGeneralWeight() {
     setTimeout(() => document.getElementById('splash-screen').style.visibility = 'hidden', 500); }, 3000);
 
 
-
 // --- AUTO-INSTALL POPUP LOGIC ---
 let deferredPrompt;
 
@@ -438,7 +437,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
                 const pDev = document.getElementById('dev-info');
                 if(pDev) {
                     // FIX: Pehle instruction line, phir line break, phir Developer ka naam
-                    pDev.innerHTML = "Behtareen experience aur offline use karne ke liye app install karein.<br><br><span style='color:#f29741; font-weight:bold;'>Developer: Wasi Developer</span>";
+                    pDev.innerHTML = "Behtareen experience aur offline use karne ke liye app install karein.<br><br><span style='color:#f29741; font-weight:bold;'></span>";
                 }
             }
         }
@@ -458,6 +457,7 @@ function handleInstallClick() {
         deferredPrompt = null;
     });
 }
+Yaar 
 
 // end Notifications 
 
@@ -469,7 +469,56 @@ function handleInstallClick() {
 const waEl = document.getElementById('wa-info');
 if(waEl) {
     waEl.onclick = () => {
-        window.open("https://wa.me/923346800959?text=Hi%20WasiDevelopers,%20I%20have%20a%20query%20about%20the%20Calculator%20for%20my%20Business.", "_blank");
+        window.open("https://wa.me/923346800959?text=Hi%20WasiDevelopers,%20I%20have%20a%20query%20about%20the%20Calculator%20for%20my%2// --- AUTO-INSTALL POPUP LOGIC ---
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    const installBtnContainer = document.getElementById('install-container'); 
+    if(installBtnContainer) {
+        installBtnContainer.style.display = 'block';
+        const installIcon = document.getElementById('install-icon-id');
+        if(installIcon) installIcon.innerHTML = "<i>📥</i>"; 
+        const installText = document.getElementById('install-text-id');
+        if(installText) installText.innerText = "";
+    }
+
+    setTimeout(() => {
+        const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+        if (!isInstalled && typeof togglePopup === "function") {
+            const popup = document.getElementById('custom-popup');
+            if (popup && popup.style.display !== 'flex') {
+                togglePopup(); 
+                
+                const pTitle = document.getElementById('popup-title');
+                if(pTitle) pTitle.innerText = ""; // Title set kiya
+                
+                const pDev = document.getElementById('dev-info');
+                if(pDev) {
+                    // FIX: Pehle instruction line, phir line break, phir Developer ka naam
+                    pDev.innerHTML = "Behtareen experience aur offline use karne ke liye app install karein.<br><br><span style='color:#f29741; font-weight:bold;'></span>";
+                }
+            }
+        }
+    }, 2000);
+});
+
+// Install Button ka click function (Wahi purana)
+function handleInstallClick() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            const installBtnContainer = document.getElementById('install-container');
+            if(installBtnContainer) installBtnContainer.style.display = 'none';
+            if(typeof togglePopup === "function") togglePopup();
+        }
+        deferredPrompt = null;
+    });
+}
+Yaar ye dekho developer title k beech main aa gay hai es ko set kar do0Business.", "_blank");
     };
 }
 
@@ -527,3 +576,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
