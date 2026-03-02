@@ -409,24 +409,7 @@ function doGeneralWeight() {
 
 
 
-
-// WhatsApp link ko clickable banane ke liye
-const waEl = document.getElementById('wa-info');
-if(waEl) {
-    waEl.onclick = () => {
-        window.open("https://wa.me/923346800959?text=Hi%20WasiDevelopers,%20I%20have%20a%20query%20about%20the%20Calculator%20for%20my%20Business.", "_blank");
-    };
-}
-
-
-// Splash Screen ka Private Data
-const splashData = {
-    name: "Dar Ul Haram \n Educational Institute ",
-    phone: "0300-1516637",
-    address: "Raiwind Lahore Pakistan"
-};
-
-function // --- AUTO-INSTALL POPUP LOGIC ---
+// --- AUTO-INSTALL POPUP LOGIC ---
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -490,8 +473,23 @@ function handleInstallClick() {
 
 
 
+// WhatsApp link ko clickable banane ke liye
+const waEl = document.getElementById('wa-info');
+if(waEl) {
+    waEl.onclick = () => {
+        window.open("https://wa.me/923346800959?text=Hi%20WasiDevelopers,%20I%20have%20a%20query%20about%20the%20Calculator%20for%20my%20Business.", "_blank");
+    };
+}
 
-initSplash() {
+
+// Splash Screen ka Private Data
+const splashData = {
+    name: "HM ERP System \n Complete School Management",
+    phone: "0300-1516637",
+    address: "Raiwind Lahore Pakistan"
+};
+
+function initSplash() {
     const shopName = document.getElementById('shop-name-id');
     const whatsapp = document.getElementById('whatsapp-id');
     const address = document.getElementById('address-id');
@@ -510,8 +508,8 @@ document.addEventListener('DOMContentLoaded', initSplash);
 const appInfoData = {
     developer: "Wasidevelopers",
     devWA: "0334-6800959",
-    version: "v2.0.30",
-    installText: "Install Dar Ul Haram Calculator",
+    version: "v2.0.31",
+    installText: "Install HM ERP Calculator",
     closeText: "Close"
 };
 
@@ -537,7 +535,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
-
-
 
 
