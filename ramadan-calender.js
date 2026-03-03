@@ -203,8 +203,8 @@ function renderCalendarHTML(data) {
     }
     // --- FIXED LOGIC END ---
 
-    const startRange = todayIndex - 5;
-    const endRange = todayIndex + 25;
+    const startRange = todayIndex - 3;
+    const endRange = todayIndex + 15;
 
     data.forEach((day, index) => {
         if (index >= startRange && index <= endRange) {
