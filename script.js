@@ -500,8 +500,8 @@ document.addEventListener('DOMContentLoaded', initSplash);
 const appInfoData = {
     developer: "Wasidevelopers",
     devWA: "0334-6800959",
-    version: "v2.0.31",
-    installText: "Install HM ERP Calculator",
+    version: "v2.0.32",
+    installText: "Install Dar ul Haram Calculator",
     closeText: "Close"
 };
 
@@ -527,3 +527,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
