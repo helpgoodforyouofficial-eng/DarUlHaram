@@ -473,7 +473,7 @@ const appInfoData = {
     developer: "Wasi Developers",
     devWA: "0334-6800959",
     version: "v2.0.31",
-    installText: "Install\n Dar ul Haram Calculator",
+    installText: "Install Dar ul Haram Calculator",
     closeText: "Close"
 };
 
@@ -528,5 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplash(); // Agar splash wala function pehle se hai
     initAppInfo();
 });
+
 
 
