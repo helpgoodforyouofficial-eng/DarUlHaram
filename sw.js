@@ -1,4 +1,4 @@
-const cacheName = 'taj-calc-v32'; // Version updated for fresh sync
+const cacheName = 'taj-calc-v34';
 const assets = [
   './',
   './index.html',
@@ -6,64 +6,48 @@ const assets = [
   './script.js',
   './ramadan-calender.js',
   './manifest.json',
-  './logo.png',   // Logo download list mein shamil
-  './icon.png'    // Icon download list mein shamil
+  './logo.png',
+  './icon.png'
 ];
 
-// 1. Install Event: Sab kuch download karlo
 self.addEventListener('install', e => {
   self.skipWaiting();
   e.waitUntil(
-    caches.open(cacheName).then(cache => {
-      console.log('Taj-System: Caching Images & Files...');
-      return Promise.all(
-        assets.map(url => {
-          return fetch(url).then(response => {
-            if (!response.ok) throw new Error('File not found: ' + url);
-            return cache.put(url, response);
-          }).catch(err => console.log('Offline Alert: ', err.message));
-        })
-      );
+    caches.open(cacheName).then(async (cache) => {
+      console.log('Taj-System: Force Syncing Assets...');
+      // Har file ko manually fetch karke store karna taake size pura save ho
+      const stack = assets.map(async (url) => {
+        try {
+          const response = await fetch(url, { cache: 'reload' }); // Force fresh download
+          if (response.ok) return await cache.put(url, response);
+        } catch (err) {
+          console.error('Failed to cache:', url);
+        }
+      });
+      return Promise.all(stack);
     })
   );
 });
 
-// 2. Activate: Purana cache clear
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(key => key !== cacheName).map(key => caches.delete(key))
-      );
-    })
+    caches.keys().then(keys => Promise.all(
+      keys.filter(key => key !== cacheName).map(key => caches.delete(key))
+    ))
   );
   return self.clients.claim();
 });
 
-// 3. Fetch: Instant Offline Access
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cachedResponse => {
-      // Agar cache mein file mil gayi (logo/icon/html), to internet ki zarurat nahi
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(e.request).then(networkResponse => {
-        if(networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(cacheName).then(cache => cache.put(e.request, responseClone));
+    caches.match(e.request).then(res => {
+      return res || fetch(e.request).then(networkRes => {
+        if(networkRes && networkRes.status === 200) {
+          const clone = networkRes.clone();
+          caches.open(cacheName).then(cache => cache.put(e.request, clone));
         }
-        return networkResponse;
+        return networkRes;
       });
-    }).catch(() => {
-        if (e.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-    })
+    }).catch(() => caches.match('./index.html'))
   );
 });
-
-
-
-
-
-
